@@ -1,20 +1,13 @@
 const http = require('http');
 
 const payload = {
-  companyName: "Tech Teste - IA",
+  companyName: "Tech Teste - URL Corrigida",
   contactName: "Assistente IA",
-  contactRole: "Testador Automático",
+  contactRole: "Testador de URL",
   contactEmail: "MarceloBFO@gmail.com",
   contactPhone: "11999998888",
-  empresa_historia: "Esta é uma empresa de teste criada automaticamente pelo sistema para validar a integração do n8n, banco de dados e arquivos locais.",
-  empresa_missao: "Testar tudo com sucesso.",
-  produto_nome: "Super Produto Teste",
-  produto_descricao: "Um produto incrível enviado via requisição de teste.",
-  publico_perfil: "Pessoas que gostam de testes bem sucedidos.",
-  objetivos_selecao: ["Vender mais", "Captar leads"],
-  materiais_selecao: ["Site", "Instagram"],
-  prazos_deadline: "30 dias",
-  observacoes_adicionais: "Enviado automaticamente pelo terminal do servidor!"
+  empresa_historia: "Testando envio com a nova URL do webhook (briefing%20clientes).",
+  publico_perfil: "Tudo deve funcionar perfeitamente agora."
 };
 
 const data = JSON.stringify(payload);
