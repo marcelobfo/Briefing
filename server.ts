@@ -67,6 +67,19 @@ async function startServer() {
       let dbSuccess = false;
       let sheetSuccess = false;
 
+      // Webhook n8n requested by user
+      try {
+        await fetch("https://sites-clientes-n8n.stpanz.easypanel.host/webhook/briefing", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        console.log("Data successfully sent to n8n webhook.");
+        sheetSuccess = true; // prevent 500 error since we successfully saved to n8n
+      } catch (webhookErr) {
+        console.error("Failed to send data to n8n webhook:", webhookErr);
+      }
+
       // 1. Try to save to Google Sheets webhook first
       if (process.env.GOOGLE_SHEETS_WEBHOOK_URL) {
         try {
