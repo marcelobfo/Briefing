@@ -275,7 +275,7 @@ export default function BriefingForm() {
         </div>
       </div>
 
-      <form onKeyDown={handleKeyDown} onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/10 rounded-3xl backdrop-blur-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden">
+      <div onKeyDown={handleKeyDown} className="bg-white/[0.03] border border-white/10 rounded-3xl backdrop-blur-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden">
         <div className="p-6 md:p-10">
           <AnimatePresence mode="wait">
             <motion.div
@@ -662,7 +662,8 @@ export default function BriefingForm() {
             </button>
           ) : (
             <button
-              type="submit"
+              type="button"
+              onClick={handleSubmit}
               disabled={isSubmitting}
               className="flex items-center px-6 py-2.5 rounded-lg font-medium bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-[0_10px_20px_-5px_rgba(79,70,229,0.4)] transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-wait"
             >
@@ -671,7 +672,7 @@ export default function BriefingForm() {
             </button>
           )}
         </div>
-      </form>
+      </div>
     </div>
   );
 }

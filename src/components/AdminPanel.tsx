@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import html2pdf from 'html2pdf.js';
 import { Download, RefreshCw, Database, FileSpreadsheet, Lock, ChevronDown, ChevronUp, User, Building, Mail, Phone, Calendar } from 'lucide-react';
 
 const BriefingCard = ({ b }: { b: any }) => {
   const [expanded, setExpanded] = useState(false);
+
+  const handleDownloadPdf = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const element = document.getElementById(`briefing-content-${b.id}`);
+    if (!element) return;
+    
+    // Create a temporary clone for printing to force light mode and remove interactive elements if needed,
+    // but the easiest is just printing the dark theme as is.
+    const opt = {
+      margin:       10,
+      filename:     `Briefing-${b.company_name || 'Empresa'}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0a0c10' },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  };
 
   const Section = ({ title, children }: { title: string, children: React.ReactNode }) => (
     <div className="mb-6">
@@ -54,7 +72,10 @@ const BriefingCard = ({ b }: { b: any }) => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <span className="bg-white/10 text-white/70 text-xs font-semibold px-3 py-1 rounded-full">
+          <button onClick={handleDownloadPdf} className="flex items-center text-xs font-bold text-indigo-400 hover:text-indigo-300 bg-indigo-500/10 px-3 py-1.5 rounded-full transition-colors mr-2">
+            <Download size={14} className="mr-1" /> PDF
+          </button>
+          <span className="bg-white/10 text-white/70 text-xs font-semibold px-3 py-1 rounded-full hidden sm:inline-block">
             ID: {b.id}
           </span>
           {expanded ? <ChevronUp className="text-white/40" /> : <ChevronDown className="text-white/40" />}
@@ -62,7 +83,7 @@ const BriefingCard = ({ b }: { b: any }) => {
       </div>
 
       {expanded && (
-        <div className="p-6 border-t border-white/10 bg-[#0a0c10]">
+        <div id={`briefing-content-${b.id}`} className="p-6 border-t border-white/10 bg-[#0a0c10]">
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4 bg-white/5 rounded-xl">
             <div className="flex items-center gap-3">
