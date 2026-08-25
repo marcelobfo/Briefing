@@ -12,14 +12,24 @@ dotenv.config();
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
-let supabase = null;
+let supabase: any = null;
 if (supabaseUrl && supabaseKey) {
-  supabase = createClient(supabaseUrl, supabaseKey);
+  try {
+    // Ensure URL is a valid HTTP/HTTPS URL to prevent app crashes
+    if (supabaseUrl.startsWith("http://") || supabaseUrl.startsWith("https://")) {
+      supabase = createClient(supabaseUrl, supabaseKey);
+      console.log("Supabase client initialized successfully.");
+    } else {
+      console.warn("Supabase initialization skipped: supabaseUrl is not a valid HTTP/HTTPS URL.");
+    }
+  } catch (err: any) {
+    console.error("Failed to initialize Supabase client:", err.message);
+  }
 }
 
 async function startServer() {
   const app = express();
-  const PORT = Number(process.env.APP_PORT) || 3000;
+  const PORT = 3000;
 
   app.use(cors());
   app.use(express.json());

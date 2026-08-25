@@ -1,0 +1,86 @@
+const http = require('http');
+
+const payload = {
+  companyName: "Supabase & n8n Test Corp",
+  contactName: "João Testador",
+  contactRole: "CEO e Fundador",
+  contactEmail: "joao@supabasetest.com",
+  contactPhone: "11988887777",
+  empresa_historia: "Começamos em 2026 com foco em integração de dados sem travamentos.",
+  empresa_missao: "Revolucionar a estabilidade de envios de briefing.",
+  empresa_produtos_atuais: "SaaS de Integração, Consultoria Cloud",
+  empresa_socios: "João e Maria",
+  empresa_identidade_visual: "Azul espacial e branco, logo moderno",
+  produto_nome: "Integração Perfeita 3000",
+  produto_descricao: "Um sistema de recebimento de briefings que nunca trava e manda pro Supabase na hora.",
+  produto_tipo: "Produto Digital",
+  produto_problema: "Atrasos em homologação e travamentos do MySQL",
+  produto_diferenciais: "Velocidade, precisão e nuvem nativa",
+  produto_mvp: "Não, já está validado",
+  produto_data_lancamento: "01/01/2027",
+  produto_tipo_lancamento: "Lançamento Meteórico",
+  publico_perfil: "Empresas de tecnologia (B2B) que precisam de agilidade",
+  publico_relacao: "Já acompanham os bastidores da criação pelo Instagram",
+  publico_dores: "Falta de tempo, ferramentas caindo do ar",
+  publico_personas: "CTO, Tech Lead, Diretor de Marketing",
+  publico_concorrentes: "Sistemas Legados, Formulários lentos",
+  publico_concorrentes_analise: "Eles são lentos e travam, nós somos 100% serverless",
+  publico_tamanho_mercado: "Global e Escalável",
+  objetivos_selecao: ["Aumentar Vendas", "Geração de Leads", "Branding"],
+  objetivos_outros: "Fidelizar clientes da carteira atual",
+  objetivos_metas: "Receber 10.000 briefings sem um único erro 500",
+  objetivos_kpis: "Taxa de Sucesso de API, Latência Média",
+  posicionamento_mensagem: "Tudo conectado. Zero falhas.",
+  posicionamento_tom: "Profissional, direto, seguro, tecnológico",
+  posicionamento_termos_obrigatorios: "Segurança, Agilidade, Cloud",
+  posicionamento_termos_proibidos: "Lento, Burocrático, Hospedagem compartilhada",
+  posicionamento_slogan: "Agilidade que gera resultados na nuvem.",
+  posicionamento_referencias: "Stripe, Supabase, Vercel",
+  materiais_selecao: ["Landing Page", "Anúncios Meta Ads", "E-mail Marketing"],
+  materiais_outros: "Apresentação Institucional em PDF",
+  materiais_dominio: "supabasetest.com",
+  materiais_site_anterior: "velhoteste.com",
+  materiais_integracoes: "n8n, Supabase, Google Sheets",
+  materiais_conteudo_pronto: "Temos as copies prontas, falta estruturar no design",
+  divulgacao_selecao: ["Google Ads", "Instagram Ads", "LinkedIn Ads"],
+  divulgacao_outros: "Eventos presenciais de TI",
+  divulgacao_redes_atuais: "@supabasetest",
+  divulgacao_verba: "R$ 15.000 / mês",
+  divulgacao_acoes_especiais: "Webinar ao vivo mostrando a integração",
+  prazos_deadline: "15 de Outubro de 2026",
+  prazos_intermediarios: "Aprovação de layout até dia 30 deste mês",
+  prazos_orcamento_total: "R$ 30.000,00",
+  prazos_ferramentas_atuais: "Todas já foram assinadas",
+  acessos_selecao: ["Google Analytics", "Gerenciador de Negócios (Meta)"],
+  observacoes_adicionais: "Estamos ansiosos. Se isso funcionar, nosso gargalo de leads foi resolvido!",
+  observacoes_restricoes: "Não usar a cor vermelha no site para não lembrar alertas de erro."
+};
+
+const data = JSON.stringify(payload);
+
+const options = {
+  hostname: '127.0.0.1',
+  port: 3000,
+  path: '/api/submit-briefing',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Content-Length': Buffer.byteLength(data)
+  }
+};
+
+const req = http.request(options, res => {
+  let responseBody = '';
+  res.on('data', chunk => { responseBody += chunk; });
+  res.on('end', () => {
+    console.log(`Status HTTP: ${res.statusCode}`);
+    console.log(`Resposta do Servidor: ${responseBody}`);
+  });
+});
+
+req.on('error', error => {
+  console.error('Erro na requisição:', error);
+});
+
+req.write(data);
+req.end();
