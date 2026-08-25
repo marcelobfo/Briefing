@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
 import { Download, RefreshCw, Database, FileSpreadsheet, Lock, ChevronDown, ChevronUp, User, Building, Mail, Phone, Calendar } from 'lucide-react';
 
 const BriefingCard = ({ b }: { b: any }) => {
@@ -177,6 +178,18 @@ export default function AdminPanel() {
   const fetchBriefings = async () => {
     setIsLoading(true);
     try {
+      if (supabase) {
+        const { data, error } = await supabase
+          .from('briefing_responses')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (data && !error) {
+          setBriefings(data);
+          return;
+        }
+      }
+      
+      // Fallback
       const res = await fetch('/api/briefings');
       if (res.ok) {
         const data = await res.json();
